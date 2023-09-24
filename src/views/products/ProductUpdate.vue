@@ -46,6 +46,9 @@
 <script setup>
 import axios from 'axios'
 import { onMounted, reactive } from 'vue'
+// useRoute import atib params olish garak adi ichindan 
+import { useRoute } from 'vue-router'
+const { params } = useRoute()
 const product = reactive({
   title: '',
   category: '',
@@ -56,31 +59,32 @@ const product = reactive({
 
 const handleSubmit = async () => {
   try {
-    if(
+    if (
       !product.title.length ||
       !product.brand.length ||
       !product.category.length ||
       !product.price ||
-      !product.description.length 
-    ){
+      !product.description.length
+    ) {
       alert("input bo'sh qolmasin")
     }
     await axios.put(
       `https://dummyjson.com/products/${params.id}`,
       JSON.stringify({
-        title:product.title,
-        category:product.category,
-        brand:product.brand,
-        description:product.description,
-        price:product.price,
+        title: product.title,
+        category: product.category,
+        brand: product.brand,
+        description: product.description,
+        price: product.price
       })
     )
   } catch (err) {
     console.log(err)
   }
 }
-const fetchProduct = async() => {
-  const {data} = await axios.get(`https://dummyjson.com/products/products/${params.id}`)
+const fetchProduct = async () => {
+  //  url ni xato yozipsan
+  const { data } = await axios.get(`https://dummyjson.com/products/${params.id}`)
   product.title = data.title
   product.category = data.category
   product.description = data.description
